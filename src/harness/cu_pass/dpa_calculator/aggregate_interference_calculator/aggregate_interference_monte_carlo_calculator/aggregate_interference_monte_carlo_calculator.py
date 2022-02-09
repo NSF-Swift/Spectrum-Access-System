@@ -7,7 +7,8 @@ from enum import auto, Enum
 from functools import partial
 from json import JSONEncoder
 from math import inf
-from typing import Any, Callable, Dict, List, Type
+from pathlib import Path
+from typing import Any, Dict, List, Type
 
 import numpy
 import numpy as np
@@ -26,6 +27,7 @@ from cu_pass.dpa_calculator.aggregate_interference_calculator.aggregate_interfer
 from cu_pass.dpa_calculator.binary_search.shortest_unchanging import ShortestUnchangingInputFinder
 from cu_pass.dpa_calculator.cbsd.cbsd import CbsdCategories, CbsdTypes
 from cu_pass.dpa_calculator.cbsds_creator.cbsds_creator import CbsdsWithBearings
+from cu_pass.dpa_calculator.cbsds_creator.kml_writer import KmlColor, KmlWriter
 from cu_pass.dpa_calculator.dpa.dpa import Dpa
 from cu_pass.dpa_calculator.binary_search.binary_search import InputWithReturnedValue
 
@@ -146,6 +148,9 @@ class AggregateInterferenceMonteCarloCalculator:
 
     def _aggregate_interference_calculator(self, is_user_equipment: bool) -> AggregateInterferenceCalculator:
         cbsds_with_bearings = self._random_cbsds_with_bearings(is_user_equipment=is_user_equipment)
+        KmlWriter(cbsds=cbsds_with_bearings.cbsds[:1000],
+                  output_filepath=Path('all_cbsds.kml'),
+                  color=KmlColor.WHITE).write()
         return self._aggregate_interference_calculator_class(dpa=self._dpa, cbsds_with_bearings=cbsds_with_bearings)
 
     def _random_cbsds_with_bearings(self, is_user_equipment: bool) -> CbsdsWithBearings:

@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from pathlib import Path
 from typing import List, Tuple
 
 import numpy
@@ -8,6 +9,8 @@ from cu_pass.dpa_calculator.aggregate_interference_calculator.aggregate_interfer
     MOVE_LIST_DISTANCES_TYPE, MoveListDistanceCalculator
 from cu_pass.dpa_calculator.aggregate_interference_calculator.aggregate_interference_calculator_winnforum.support.support.neighborhood_interference_matrix_calculator import \
     INTERFERENCE_MATRIX_INFO_TYPE, NeighborhoodInterferenceMatrixCalculator
+from cu_pass.dpa_calculator.cbsd.cbsd import Cbsd
+from cu_pass.dpa_calculator.cbsds_creator.kml_writer import KmlColor, KmlWriter
 from reference_models.common.data import CbsdGrantInfo
 from reference_models.dpa.dpa_mgr import Dpa
 from reference_models.dpa.move_list import find_nc, MINIMUM_INTERFERENCE_WINNFORUM
@@ -41,6 +44,11 @@ class MaximumMoveListDistanceCalculator:
 
     @cached_property
     def _move_list_distance_calculator(self) -> MoveListDistanceCalculator:
+        neiborhood_grants = [grant for i, grant in enumerate(self._grants_with_inband_frequencies[:1000]) if i in self._neighbor_grant_indexes]
+        cbsds = [Cbsd.from_grant(grant) for grant in neiborhood_grants]
+        KmlWriter(cbsds=cbsds,
+                  output_filepath=Path('neighbord_cbsds.kml'),
+                  color=KmlColor.BLUE).write()
         return MoveListDistanceCalculator(all_grants=self._grants_with_inband_frequencies,
                                           grant_distances=self._grant_distances,
                                           move_list_indexes=self._move_list_indexes)
@@ -95,4 +103,4 @@ class MaximumMoveListDistanceCalculator:
 
     @cached_property
     def _neighbor_grant_indexes(self) -> List[int]:
-        return self._neighbor_grants_info[1]
+        return [index for i, index in enumerate(self._neighbor_grants_info[1]) if index < 1000]

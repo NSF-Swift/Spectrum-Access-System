@@ -1,9 +1,11 @@
 from collections import defaultdict
+from pathlib import Path
 from typing import Dict, List
 
 from cached_property import cached_property
 
-from cu_pass.dpa_calculator.cbsd.cbsd import CbsdCategories
+from cu_pass.dpa_calculator.cbsd.cbsd import Cbsd, CbsdCategories
+from cu_pass.dpa_calculator.cbsds_creator.kml_writer import KmlColor, KmlWriter
 from reference_models.common.data import CbsdGrantInfo
 
 MOVE_LIST_DISTANCES_TYPE = Dict[CbsdCategories, float]
@@ -20,6 +22,10 @@ class MoveListDistanceCalculator:
         self._move_list_indexes = move_list_indexes
 
     def calculate(self) -> MOVE_LIST_DISTANCES_TYPE:
+        cbsds = [Cbsd.from_grant(grant) for grant in self._move_grants]
+        KmlWriter(cbsds=cbsds[:1000],
+                  output_filepath=Path('move_cbsds.kml'),
+                  color=KmlColor.RED).write()
         distances: MOVE_LIST_DISTANCES_TYPE = defaultdict(lambda: MINIMUM_DISTANCE)
         for cbsd_category, move_indexes in self._cbsd_category_move_grant_indexes.items():
             distances[cbsd_category] = max(self._grant_distances[index] for index in move_indexes)
