@@ -23,7 +23,7 @@ class MoveListDistanceCalculator:
 
     def calculate(self) -> MOVE_LIST_DISTANCES_TYPE:
         cbsds = [Cbsd.from_grant(grant) for grant in self._move_grants]
-        KmlWriter(cbsds=cbsds[:1000],
+        KmlWriter(cbsds=cbsds,
                   output_filepath=Path('move_cbsds.kml'),
                   color=KmlColor.RED).write()
         distances: MOVE_LIST_DISTANCES_TYPE = defaultdict(lambda: MINIMUM_DISTANCE)

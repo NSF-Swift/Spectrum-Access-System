@@ -47,7 +47,7 @@ class MaximumMoveListDistanceCalculator:
         neiborhood_grants = [grant for i, grant in enumerate(self._grants_with_inband_frequencies[:1000]) if i in self._neighbor_grant_indexes]
         cbsds = [Cbsd.from_grant(grant) for grant in neiborhood_grants]
         KmlWriter(cbsds=cbsds,
-                  output_filepath=Path('neighbord_cbsds.kml'),
+                  output_filepath=Path('neighbors_cbsds.kml'),
                   color=KmlColor.BLUE).write()
         return MoveListDistanceCalculator(all_grants=self._grants_with_inband_frequencies,
                                           grant_distances=self._grant_distances,

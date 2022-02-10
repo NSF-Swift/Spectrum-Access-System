@@ -148,7 +148,8 @@ class AggregateInterferenceMonteCarloCalculator:
 
     def _aggregate_interference_calculator(self, is_user_equipment: bool) -> AggregateInterferenceCalculator:
         cbsds_with_bearings = self._random_cbsds_with_bearings(is_user_equipment=is_user_equipment)
-        KmlWriter(cbsds=cbsds_with_bearings.cbsds[:1000],
+        cbsds_with_bearings = replace(cbsds_with_bearings, cbsds=cbsds_with_bearings.cbsds[:1000], bearings=cbsds_with_bearings.bearings[:1000])
+        KmlWriter(cbsds=cbsds_with_bearings.cbsds,
                   output_filepath=Path('all_cbsds.kml'),
                   color=KmlColor.WHITE).write()
         return self._aggregate_interference_calculator_class(dpa=self._dpa, cbsds_with_bearings=cbsds_with_bearings)
