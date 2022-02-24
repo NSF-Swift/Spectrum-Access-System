@@ -64,7 +64,7 @@ class BinarySearch(ABC):
                                for neighborhood_distance in neighborhood_distances]
         pyplot.plot(neighborhood_distances, move_list_distances)
         pyplot.title('Neighborhood Distance Effect on Move List')
-        pyplot.xlabel('Neighborhood Distance')
+        pyplot.xlabel('Neighborhood Distance (km)')
         pyplot.ylabel('Furthest Device on Move List (km)')
         pyplot.show()
 

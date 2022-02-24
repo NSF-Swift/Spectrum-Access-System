@@ -394,7 +394,7 @@ def find_nc(I, bearings, t, beamwidth, min_azimuth, max_azimuth) -> Tuple[int, f
   t_mW = np.power(10.0, t/10.0)
   I_mW = np.power(10.0, I/10.0)
 
-  plot_aggregate_interference(I_mW, 'Aggregate Interference Before Normalized Rx Antenna Gain')
+  # plot_aggregate_interference(I_mW, 'Aggregate Interference Before Normalized Rx Antenna Gain')
 
 
   # Loop through every azimuth angle.
@@ -404,7 +404,7 @@ def find_nc(I, bearings, t, beamwidth, min_azimuth, max_azimuth) -> Tuple[int, f
     dpa_gains = antenna.GetRadarNormalizedAntennaGains(bearings, azi, beamwidth)
     IG = I_mW * 10**(dpa_gains/10.0)
 
-    plot_aggregate_interference(IG, f'Aggregate Interference After Normalized Rx Antenna Gain')
+    # plot_aggregate_interference(IG, f'Aggregate Interference After Normalized Rx Antenna Gain')
 
     # Compute the protection percentile of the aggregate interference, and remove
     # grants until the protection threshold is met or all grants are moved.
