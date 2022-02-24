@@ -4,6 +4,9 @@ from dataclasses import dataclass
 from statistics import mean
 from typing import Callable, Optional
 
+import numpy
+from matplotlib import pyplot
+
 from cu_pass.dpa_calculator.utilities import get_dpa_calculator_logger
 
 
@@ -49,10 +52,21 @@ class BinarySearch(ABC):
             new_boundaries = self._updated_boundaries
             self._max = new_boundaries.maximum
             self._min = new_boundaries.minimum
+        self._plot()
         return InputWithReturnedValue(
             input=self._input_found,
             returned_value=self._run_function(self._input_found)
         )
+
+    def _plot(self):
+        neighborhood_distances = sorted(self._results_cache.keys())
+        move_list_distances = [numpy.percentile(self._results_cache[neighborhood_distance], 95)
+                               for neighborhood_distance in neighborhood_distances]
+        pyplot.plot(neighborhood_distances, move_list_distances)
+        pyplot.title('Neighborhood Distance Effect on Move List')
+        pyplot.xlabel('Neighborhood Distance')
+        pyplot.ylabel('Furthest Device on Move List (km)')
+        pyplot.show()
 
     @property
     @abstractmethod
