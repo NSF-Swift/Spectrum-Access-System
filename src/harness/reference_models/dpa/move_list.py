@@ -47,6 +47,7 @@ from typing import Tuple
 
 import numpy as np
 import shapely.geometry as sgeo
+from matplotlib import pyplot
 from shapely.geometry import MultiPolygon as MPolygon
 from shapely.geometry import Point as SPoint
 from shapely.geometry import Polygon as SPolygon
@@ -327,6 +328,10 @@ def formInterferenceMatrix(grants, grants_ids, constraint,
   I = np.array([interf_list[k].randomInterference for k in sorted_idxs]).transpose()
   sorted_bearings = np.array([interf_list[k].bearing_c_cbsd for k in sorted_idxs])
   sorted_grant_ids = [grants_ids[k] for k in sorted_idxs]
+
+  median_linear = np.power(10.0, np.array(sorted(median_interf))/10.0)
+  plot_aggregate_interference_medians(median_linear, 'Aggregate Interference Before Normalized Rx Gain')
+
   return I, sorted_grant_ids, sorted_bearings
 
 
@@ -342,6 +347,22 @@ def findAzimuthRange(min_azimuth, max_azimuth, beamwidth):
     if azimuths[-1] % 360. == azimuths[0]: azimuths = azimuths[:-1]
     azimuths[azimuths>=360] -= 360
   return azimuths
+
+
+def plot_aggregate_interference_medians(medians, title, threshold: int = -144):
+  cumulative = [sum(medians[:i + 1]) for i in range(len(medians))]
+  cumulative_db = (10 * np.log10(cumulative))
+  pyplot.plot(cumulative_db)
+  pyplot.title(title)
+  pyplot.xlabel('CBSD Number')
+  pyplot.ylabel('Aggregate Interference (dB)')
+  pyplot.axhline(y=threshold, color='r', linestyle='-')
+  pyplot.show()
+
+
+def plot_aggregate_interference(I, title: str, threshold: int = -144):
+  medians = np.percentile(I.transpose(), 50, axis=1)
+  plot_aggregate_interference_medians(medians, title, threshold)
 
 
 def find_nc(I, bearings, t, beamwidth, min_azimuth, max_azimuth) -> Tuple[int, float]:
@@ -373,12 +394,17 @@ def find_nc(I, bearings, t, beamwidth, min_azimuth, max_azimuth) -> Tuple[int, f
   t_mW = np.power(10.0, t/10.0)
   I_mW = np.power(10.0, I/10.0)
 
+  plot_aggregate_interference(I_mW, 'Aggregate Interference Before Normalized Rx Antenna Gain')
+
+
   # Loop through every azimuth angle.
   for azi in azimuths:
 
     # Calculate interference contributions at output of receiver antenna.
     dpa_gains = antenna.GetRadarNormalizedAntennaGains(bearings, azi, beamwidth)
     IG = I_mW * 10**(dpa_gains/10.0)
+
+    plot_aggregate_interference(IG, f'Aggregate Interference After Normalized Rx Antenna Gain')
 
     # Compute the protection percentile of the aggregate interference, and remove
     # grants until the protection threshold is met or all grants are moved.
