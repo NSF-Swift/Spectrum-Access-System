@@ -1,3 +1,4 @@
+from collections import defaultdict
 from contextlib import contextmanager
 from typing import ContextManager, List, Optional
 
@@ -8,9 +9,15 @@ from cu_pass.dpa_calculator.aggregate_interference_calculator.aggregate_interfer
     AggregateInterferenceMonteCarloCalculator, AggregateInterferenceMonteCarloResults
 from cu_pass.dpa_calculator.aggregate_interference_calculator.aggregate_interference_monte_carlo_calculator.support.definitions import \
     CbsdDeploymentOptions, SIMULATION_DISTANCES_DEFAULT
-from cu_pass.dpa_calculator.cbsd.cbsd import CbsdCategories
+from cu_pass.dpa_calculator.aggregate_interference_calculator.configuration.configuration_manager import \
+    ConfigurationManager
+from cu_pass.dpa_calculator.cbsd.cbsd import CbsdCategories, CbsdTypes
 from cu_pass.dpa_calculator.dpa.builder import get_dpa
 from cu_pass.dpa_calculator.dpa.dpa import Dpa
+from cu_pass.dpa_calculator.helpers.list_distributor.fractional_distribution.fractional_distribution import \
+    FractionalDistribution
+from cu_pass.dpa_calculator.helpers.list_distributor.fractional_distribution.support.fractional_distribution_parser import \
+    parse_fractional_distribution
 from cu_pass.dpa_calculator.main_runner.results_recorder import ResultsRecorder
 
 DEFAULT_NUMBER_OF_ITERATIONS = 100
@@ -20,6 +27,8 @@ class MainRunner:
     def __init__(self,
                  dpa_name: str,
                  beamwidth: float = None,
+                 eirp_category_a: str = None,
+                 eirp_category_b: str = None,
                  number_of_iterations: int = DEFAULT_NUMBER_OF_ITERATIONS,
                  simulation_distance_category_a: int = SIMULATION_DISTANCES_DEFAULT[CbsdCategories.A],
                  simulation_distance_category_b: int = SIMULATION_DISTANCES_DEFAULT[CbsdCategories.B],
@@ -31,6 +40,10 @@ class MainRunner:
                  s3_output_directory: Optional[str] = None):
         self._beamwidth = beamwidth
         self._dpa_name = dpa_name
+        self._eirp_distributions = {
+            CbsdCategories.A: eirp_category_a,
+            CbsdCategories.B: eirp_category_b
+        }
         self._local_output_directory = local_output_directory
         self._include_ue_runs = include_ue_runs
         self._interference_threshold = interference_threshold
@@ -47,6 +60,7 @@ class MainRunner:
         self._setup_logging_handler()
         self._validate_args()
         with self._setup_output_recording():
+            self._setup_global_configuration()
             results = self._calculate()
             results.log()
             self._record_results(results=results)
@@ -68,6 +82,17 @@ class MainRunner:
     def _setup_output_recording(self) -> ContextManager[None]:
         with self._results_recorder.prepare_for_recording():
             yield
+
+    def _setup_global_configuration(self) -> None:
+        self._setup_eirp_configuration()
+
+    def _setup_eirp_configuration(self) -> None:
+        configuration = ConfigurationManager().get_configuration()
+        for cbsd_category in CbsdCategories:
+            distribution_text = self._eirp_distributions[cbsd_category]
+            if distribution_text:
+                distribution = parse_fractional_distribution(text=distribution_text)[0]
+                configuration.eirp_distribution[CbsdTypes.AP][cbsd_category] = defaultdict(lambda: defaultdict( lambda: distribution))
 
     def _calculate(self) -> AggregateInterferenceMonteCarloResults:
         cbsd_deployment_options = CbsdDeploymentOptions(

@@ -22,9 +22,12 @@ from cu_pass.dpa_calculator.aggregate_interference_calculator.aggregate_interfer
     CbsdDeployer
 from cu_pass.dpa_calculator.aggregate_interference_calculator.aggregate_interference_monte_carlo_calculator.support.definitions import \
     CbsdDeploymentOptions
+from cu_pass.dpa_calculator.aggregate_interference_calculator.configuration.configuration import Configuration
+from cu_pass.dpa_calculator.aggregate_interference_calculator.configuration.configuration_manager import \
+    ConfigurationManager
 from cu_pass.dpa_calculator.binary_search.shortest_unchanging import ShortestUnchangingInputFinder
 from cu_pass.dpa_calculator.cbsd.cbsd import CbsdCategories, CbsdTypes
-from cu_pass.dpa_calculator.cbsds_creator.cbsds_creator import CbsdsWithBearings
+from cu_pass.dpa_calculator.cbsds_creator.cbsds_generator import CbsdsWithBearings
 from cu_pass.dpa_calculator.dpa.dpa import Dpa
 from cu_pass.dpa_calculator.binary_search.binary_search import InputWithReturnedValue
 
@@ -87,8 +90,10 @@ class AggregateInterferenceMonteCarloCalculator:
                  cbsd_deployment_options: CbsdDeploymentOptions = CbsdDeploymentOptions(),
                  include_ue_runs: bool = False,
                  neighborhood_categories: List[CbsdCategories] = None,
-                 interference_threshold: int = None):
+                 interference_threshold: int = None,
+                 configuration: Configuration = Configuration()):
         self._aggregate_interference_calculator_type = aggregate_interference_calculator_type
+        self._configuration = configuration
         self._cbsd_deployment_options = cbsd_deployment_options
         self._dpa = dpa
         self._dpa.threshold = self._dpa.threshold if interference_threshold is None else interference_threshold
@@ -108,11 +113,15 @@ class AggregateInterferenceMonteCarloCalculator:
 
     def simulate(self) -> AggregateInterferenceMonteCarloResults:
         self._log_inputs()
+        self._set_configuration()
         start_time = datetime.now()
         self._run_iterations()
         self._gather_results()
         self._final_result = replace(self._final_result, runtime=datetime.now() - start_time)
         return self._final_result
+
+    def _set_configuration(self) -> None:
+        ConfigurationManager().set_configuration(self._configuration)
 
     def _log_inputs(self) -> None:
         self._logger.info('Inputs:')
@@ -153,7 +162,6 @@ class AggregateInterferenceMonteCarloCalculator:
 
     def _random_cbsds_with_bearings(self, is_user_equipment: bool) -> CbsdsWithBearings:
         cbsd_deployer = self._cbsd_deployer_category(is_user_equipment=is_user_equipment)
-        cbsd_deployer.log()
         return cbsd_deployer.deploy()
 
     def _cbsd_deployer_category(self, is_user_equipment) -> CbsdDeployer:

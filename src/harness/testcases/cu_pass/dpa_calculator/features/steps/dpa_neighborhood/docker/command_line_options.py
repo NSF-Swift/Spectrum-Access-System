@@ -1,10 +1,13 @@
 import json
 import re
-from typing import Dict
+from typing import Dict, List
 
 from behave import *
 
 from cu_pass.dpa_calculator.cbsd.cbsd import CbsdCategories, CbsdTypes
+from cu_pass.dpa_calculator.constants import REGION_TYPE_RURAL
+from cu_pass.dpa_calculator.helpers.list_distributor.fractional_distribution.fractional_distribution import \
+    FractionalDistribution
 from testcases.cu_pass.dpa_calculator.features.steps.dpa_neighborhood.docker.output_files import get_uploaded_result_content
 from testcases.cu_pass.dpa_calculator.features.steps.dpa_neighborhood.docker.utilities import get_uploaded_log_content
 from testcases.cu_pass.dpa_calculator.features.steps.dpa_neighborhood.environment.contexts.context_docker import ContextDocker
@@ -22,10 +25,25 @@ def step_impl(context: ContextDocker, beamwidth: float):
     context.beamwidth = beamwidth
 
 
+@given("a category {cbsd_category:CbsdCategory} EIRP distribution of {distributions:FractionalDistribution}")
+def step_impl(context: ContextDocker, cbsd_category: CbsdCategories, distributions: List[FractionalDistribution]):
+    context.eirp_distribution = {
+        CbsdTypes.AP: {
+            cbsd_category: {
+                REGION_TYPE_RURAL: {
+                    True: distributions[0],
+                    False: distributions[0]
+                }
+            }
+        }
+    }
+
+
 @then("\"{expected_log_portion}\" should be in the output log")
 def step_impl(context: ContextDocker, expected_log_portion: str):
     output_content = get_uploaded_log_content(bucket_name=context.s3_bucket)
-    assert re.search(expected_log_portion, output_content)
+    expected_log_portion_sanitized = expected_log_portion.replace('[', '\[').replace(']', '\]')
+    assert re.search(expected_log_portion_sanitized, output_content)
 
 
 @then("the results should{not_included}include UE results")

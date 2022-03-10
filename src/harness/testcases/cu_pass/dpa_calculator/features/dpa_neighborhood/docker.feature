@@ -78,7 +78,7 @@ Feature: Docker run
 
   Scenario: The DPA defined interference threshold is used as a default
     When the main docker command is run
-    Then "Threshold used: -176 dBm" should be in the output log
+    Then "Threshold used: -165 dBm" should be in the output log
 
   Scenario: Running UEs can be enabled by the command line
     Given UE runs are included
@@ -93,6 +93,22 @@ Feature: Docker run
     Examples:
       | beamwidth | expected_log_portion   |
       | 1         | Beamwidth: 1.0 degrees |
+      | 1.5       | Beamwidth: 1.5 degrees |
+
+  Scenario Template: The EIRP distribution is configurable by the command line
+    Given a category <cbsd_category> simulation distance of 2 km
+    And a category <cbsd_category> EIRP distribution of <distribution>
+    When the main docker command is run
+    Then "CBSD Category: CbsdCategories.<cbsd_category>(\n\t\t\t.*)+<distribution>" should be in the output log
+
+    Examples: Normal distribution
+      | cbsd_category | distribution                              |
+      | A             | 100.0%: PDF [10.0-20.0] mean 12.0 std 2.0 |
+      | B             | 100.0%: PDF [11.0-21.0] mean 13.0 std 3.0 |
+
+    Examples: Negative power levels
+      | cbsd_category | distribution         |
+      | B             | 100.0%: -118.0--44.0 |
 
   Scenario: Running UEs is disabled by default when run by the command line
     When the main docker command is run

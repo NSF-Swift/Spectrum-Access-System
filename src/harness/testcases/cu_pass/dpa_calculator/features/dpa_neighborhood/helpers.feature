@@ -96,23 +96,26 @@ Feature: DPA Neighborhood helpers
                   Number of UEs per AP: 2
                   Population retriever: PopulationRetrieverCensus
                   Number of APs calculator: NumberOfCbsdsCalculatorShipborne
+                  EIRP Distribution: 100%: 26
               CBSD Category: CbsdCategories.B
                   Population: 50.0
                   Number of APs: 1
                   Number of UEs per AP: 2
                   Population retriever: PopulationRetrieverCensus
                   Number of APs calculator: NumberOfCbsdsCalculatorShipborne
-
+                  EIRP Distribution: 100%: 47
           CbsdCategories.A NEIGHBORHOOD RESULTS:
               Input: 0
               Value: 0
               Threshold used: -143.0 dBm
+              Beamwidth: 3.0 degrees
               Expected interference: -182.5981322803591 dBm
 
           CbsdCategories.B NEIGHBORHOOD RESULTS:
               Input: 0
               Value: 0
               Threshold used: -143.0 dBm
+              Beamwidth: 3.0 degrees
               Expected interference: -147.6771136871935 dBm
 
           CBSD Deployment:
@@ -125,23 +128,28 @@ Feature: DPA Neighborhood helpers
                   Number of UEs per AP: 2
                   Population retriever: PopulationRetrieverCensus
                   Number of APs calculator: NumberOfCbsdsCalculatorShipborne
+                  EIRP Distribution: 100%: 24
+                  EIRP Distribution: 100%: 24
               CBSD Category: CbsdCategories.B
                   Population: 50.0
                   Number of UEs: 2
                   Number of UEs per AP: 2
                   Population retriever: PopulationRetrieverCensus
                   Number of APs calculator: NumberOfCbsdsCalculatorShipborne
-
+                  EIRP Distribution: 100%: 24
+                  EIRP Distribution: 100%: 24
           CbsdCategories.A NEIGHBORHOOD RESULTS:
               Input: 0
               Value: 0
               Threshold used: -143.0 dBm
-              Expected interference: -183.9999980738354 dBm
+              Beamwidth: 3.0 degrees
+              Expected interference: -183.85488720659362 dBm
 
           CbsdCategories.B NEIGHBORHOOD RESULTS:
               Input: 16
               Value: 7.642569984702351
               Threshold used: -143.0 dBm
+              Beamwidth: 3.0 degrees
               Expected interference: -158.67737454199508 dBm
 
       CbsdTypes.AP iteration 2
@@ -155,24 +163,27 @@ Feature: DPA Neighborhood helpers
                   Number of UEs per AP: 2
                   Population retriever: PopulationRetrieverCensus
                   Number of APs calculator: NumberOfCbsdsCalculatorShipborne
+                  EIRP Distribution: 100%: 26
               CBSD Category: CbsdCategories.B
                   Population: 50.0
                   Number of APs: 1
                   Number of UEs per AP: 2
                   Population retriever: PopulationRetrieverCensus
                   Number of APs calculator: NumberOfCbsdsCalculatorShipborne
-
+                  EIRP Distribution: 100%: 47
           CbsdCategories.A NEIGHBORHOOD RESULTS:
               Input: 0
               Value: 0
               Threshold used: -143.0 dBm
+              Beamwidth: 3.0 degrees
               Expected interference: -171.9663902447217 dBm
 
           CbsdCategories.B NEIGHBORHOOD RESULTS:
               Input: 0
               Value: 0
               Threshold used: -143.0 dBm
-              Expected interference: -179.54210835113147 dBm
+              Beamwidth: 3.0 degrees
+              Expected interference: -179.52050977613624 dBm
 
           CBSD Deployment:
               CBSD Type: CbsdTypes.UE
@@ -184,28 +195,33 @@ Feature: DPA Neighborhood helpers
                   Number of UEs per AP: 2
                   Population retriever: PopulationRetrieverCensus
                   Number of APs calculator: NumberOfCbsdsCalculatorShipborne
+                  EIRP Distribution: 100%: 24
+                  EIRP Distribution: 100%: 24
               CBSD Category: CbsdCategories.B
                   Population: 50.0
                   Number of UEs: 2
                   Number of UEs per AP: 2
                   Population retriever: PopulationRetrieverCensus
                   Number of APs calculator: NumberOfCbsdsCalculatorShipborne
-
+                  EIRP Distribution: 100%: 24
+                  EIRP Distribution: 100%: 24
           CbsdCategories.A NEIGHBORHOOD RESULTS:
               Input: 0
               Value: 0
               Threshold used: -143.0 dBm
-              Expected interference: -197.59467015610002 dBm
+              Beamwidth: 3.0 degrees
+              Expected interference: -197.62118846422874 dBm
 
           CbsdCategories.B NEIGHBORHOOD RESULTS:
               Input: 0
               Value: 0
               Threshold used: -143.0 dBm
-              Expected interference: -202.76920822158186 dBm
+              Beamwidth: 3.0 degrees
+              Expected interference: -202.97026479948028 dBm
 
 
       Final results:
           Distance: {<CbsdTypes.AP: 'AP'>: {<CbsdCategories.A: 'A'>: 0, <CbsdCategories.B: 'B'>: 0}, <CbsdTypes.UE: 'UE'>: {<CbsdCategories.A: 'A'>: 0, <CbsdCategories.B: 'B'>: 0}}
-          Interference: {<CbsdTypes.AP: 'AP'>: {<CbsdCategories.A: 'A'>: -172.49797734650357, <CbsdCategories.B: 'B'>: -149.2703634203904}, <CbsdTypes.UE: 'UE'>: {<CbsdCategories.A: 'A'>: -184.67973167794864, <CbsdCategories.B: 'B'>: -202.76920822158186}}
+          Interference: {<CbsdTypes.AP: 'AP'>: {<CbsdCategories.A: 'A'>: -172.49797734650357, <CbsdCategories.B: 'B'>: -149.26928349164064}, <CbsdTypes.UE: 'UE'>: {<CbsdCategories.A: 'A'>: -184.5432022694754, <CbsdCategories.B: 'B'>: -202.97026479948028}}
 
       """
