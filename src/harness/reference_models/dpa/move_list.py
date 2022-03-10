@@ -64,6 +64,8 @@ from reference_models.geo import vincenty
 from reference_models.interference.interference import dbToLinear, linearToDb
 from reference_models.propagation import wf_itm
 
+CLUTTER_LOSS_IN_DB = 15
+
 # Import WINNF reference models including propagation, geo, and CBSD antenna gain models
 
 # Constant parameters based on requirements in the WINNF-TS-0112 [R2-SGN-24]
@@ -282,7 +284,7 @@ def computeInterference(grant, constraint, inc_ant_height, num_iteration, dpa_ty
     eirp_cbsd = oob_power + ant_gain
 
   # Calculate the interference contributions
-  interf = eirp_cbsd - path_loss
+  interf = eirp_cbsd - path_loss - CLUTTER_LOSS_IN_DB
   median_interf = interf[-1]      # last element is the median interference
   K_interf = interf[:-1]          # first 'K' interference
 
