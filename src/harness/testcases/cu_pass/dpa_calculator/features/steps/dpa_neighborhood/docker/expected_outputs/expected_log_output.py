@@ -1,6 +1,7 @@
 from testcases.cu_pass.dpa_calculator.features.helpers.utilities import sanitize_multiline_expected_string
 
-EXPECTED_LOG_OUTPUT = sanitize_multiline_expected_string("""Inputs:
+EXPECTED_LOG_OUTPUT = sanitize_multiline_expected_string("""
+Inputs:
 	DPA Name: HATCREEK
 	Number of iterations: 1
 	Aggregate interference calculator: AggregateInterferenceCalculatorWinnforum

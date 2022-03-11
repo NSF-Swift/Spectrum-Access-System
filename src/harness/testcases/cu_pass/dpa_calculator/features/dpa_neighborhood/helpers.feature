@@ -80,6 +80,7 @@ Feature: DPA Neighborhood helpers
     When the neighborhood radius is calculated
     Then the output log should be
       """
+
       Inputs:
           DPA Name: MCKINNEY
           Number of iterations: 2

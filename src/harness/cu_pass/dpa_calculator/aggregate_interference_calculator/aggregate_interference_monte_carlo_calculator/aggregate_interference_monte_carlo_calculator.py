@@ -1,5 +1,6 @@
 import json
 import logging
+import subprocess
 from collections import defaultdict
 from dataclasses import asdict, dataclass, field, replace
 from datetime import datetime, timedelta
@@ -112,7 +113,7 @@ class AggregateInterferenceMonteCarloCalculator:
         self._final_result = AggregateInterferenceMonteCarloResults()
 
     def simulate(self) -> AggregateInterferenceMonteCarloResults:
-        self._log_inputs()
+        self._log()
         self._set_configuration()
         start_time = datetime.now()
         self._run_iterations()
@@ -123,13 +124,22 @@ class AggregateInterferenceMonteCarloCalculator:
     def _set_configuration(self) -> None:
         ConfigurationManager().set_configuration(self._configuration)
 
+    def _log(self) -> None:
+        self._log_git_hash()
+        self._logger.info('')
+        self._log_inputs()
+        self._logger.info('')
+
+    def _log_git_hash(self) -> None:
+        git_revision_hash = subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
+        self._logger.info(f'Git commit hash: {git_revision_hash}')
+
     def _log_inputs(self) -> None:
         self._logger.info('Inputs:')
         self._logger.info(f'\tDPA Name: {self._dpa.name}')
         self._logger.info(f'\tNumber of iterations: {self._number_of_iterations}')
         self._logger.info(
             f'\tAggregate interference calculator: {self._aggregate_interference_calculator_class.__name__}')
-        self._logger.info('')
 
     def _run_iterations(self) -> None:
         for iteration_number in range(self._number_of_iterations):
