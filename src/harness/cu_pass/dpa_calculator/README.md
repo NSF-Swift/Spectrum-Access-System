@@ -1,13 +1,43 @@
 # DPA Calculator
 
-## Docker
-### Build
+## How to run
+### Local python
+#### Setup and install
+1. Setup a [venv](https://docs.python.org/3/library/venv.html) for the project.
+2. Follow the setup and installation procedure in the README in the root directory.
+3. Install additional project requirements run `pip install -r requirements.txt`
+4. If you are planning on developing, install the test requirements with `pip install -r test-requirements.txt`
+
+#### Run
+1. Change your working directory to `src/harness`
+2. Include the `harness` directory in your python path
+   1. Max/Linux
+       ```shell
+       export PYTHONPATH=$PYTHONPATH;$(pwd)
+       ```
+   2. Windows CMD
+       ```shell
+       set PYTHONPATH=%PYTHONPATH%;%cd% 
+       ```
+3. Run the main entrypoint
+    ```shell
+    python3 cu_pass/dpa_calculator/main.py -h
+    ```
+
+#### Test
+Tests are in `src\harness\testcases\cu_pass\dpa_calculator`, using [Behave](https://behave.readthedocs.io/en/stable/)
+and [Pytest](https://docs.pytest.org/en/7.1.x/).
+
+### Docker
+Install Docker
+
+#### Build
 From the root directory, run
 ```shell
 docker build . -f src/harness/cu_pass/dpa_calculator/Dockerfile -t dpa
 ```
 
-### Run
+#### Run
 Mount data directory volumes and use environment variables matching the container volume paths.
 
 ```shell
@@ -19,12 +49,12 @@ docker run \
   dpa
 ```
 
-## AWS
-### Push docker image
-#### Setup
+### AWS
+#### Push docker image
+##### Setup
 - Ensure the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) is installed.
 
-#### Set AWS repository variable
+##### Set AWS repository variable
 - Mac/Linux
     ```shell
     export AWS_REPO=<aws_account_id>.dkr.ecr.<aws_region>.amazonaws.com
@@ -37,7 +67,7 @@ docker run \
     set AWS_REGISTRY $AWS_REPO/dpa_calculator:latest
     ```
 
-#### ECR
+##### ECR
 - Login
     ```shell
     aws ecr get-login-password | docker login --username AWS --password-stdin "$AWS_REPO"
@@ -48,7 +78,7 @@ docker run \
     docker push "$AWS_REGISTRY"
     ```
 
-### EC2 Instance
+#### EC2 Instance
 1. Launch EC2 instance with 20 GB of memory
 2. Attach Common-Data volume to instance
    1. [Format](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html) and mount the volume
