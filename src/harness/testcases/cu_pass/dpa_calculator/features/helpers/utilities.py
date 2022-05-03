@@ -1,5 +1,4 @@
 import logging
-import os
 from pathlib import Path
 
 from cu_pass.dpa_calculator.utilities import get_dpa_calculator_logger
@@ -29,10 +28,6 @@ def get_logging_file_handler() -> logging.FileHandler:
 
 def get_expected_output_content(context: ContextSas) -> str:
     return sanitize_multiline_expected_string(content=context.text)
-
-
-def get_script_directory(file: str) -> Path:
-    return Path(os.path.dirname(os.path.realpath(file)))
 
 
 def read_file(filepath: str) -> str:

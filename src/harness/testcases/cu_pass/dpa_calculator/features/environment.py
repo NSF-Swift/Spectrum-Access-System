@@ -13,8 +13,8 @@ from testcases.cu_pass.dpa_calculator.features.environment.hooks import antenna_
     interference_contribution_eirps_before_scenario, \
     set_context_sas_defaults, setup_monte_carlo_runner, total_interference_before_scenario, \
     transmitter_insertion_losses_before_scenario
-from testcases.cu_pass.dpa_calculator.features.helpers.utilities import get_logging_file_handler, get_script_directory, \
-    get_testing_logger, TESTING_LOGGER_FILE_HANDLER_NAME
+from testcases.cu_pass.dpa_calculator.features.helpers.utilities import get_logging_file_handler, get_testing_logger, TESTING_LOGGER_FILE_HANDLER_NAME
+from cu_pass.dpa_calculator.utilities import get_script_directory
 from testcases.cu_pass.dpa_calculator.features.steps.dpa_neighborhood.environment.contexts.context_docker import set_docker_context_defaults
 
 EXCLUDE_MANIFEST_FILES_GLOB = '[!_]*'

@@ -1,5 +1,7 @@
 import logging
+import os
 from dataclasses import dataclass
+from pathlib import Path
 from statistics import stdev
 from typing import Callable, List, Tuple
 
@@ -120,3 +122,7 @@ def get_percentile(results: List[float], percentile: int) -> float:
 
 def get_dpa_calculator_logger() -> logging.Logger:
     return logging.getLogger(DPA_CALCULATOR_LOGGER_NAME)
+
+
+def get_script_directory(file: str) -> Path:
+    return Path(os.path.dirname(os.path.realpath(file)))
