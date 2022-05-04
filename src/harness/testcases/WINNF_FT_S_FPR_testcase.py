@@ -18,8 +18,6 @@ from __future__ import print_function
 
 import json
 import os
-
-import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 import sas
 import sas_testcase
 from sas_test_harness import generateCbsdRecords
@@ -1035,7 +1033,7 @@ class FSSProtectionTestcase(McpXprCommonTestcase):
 
     # Send grant request and get response
     request = {'grantRequest': grant_request}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
 
     # Check grant response
     self.assertEqual(len(response), len(cbsd_ids))

@@ -20,7 +20,6 @@ import logging
 import os
 import numpy as np
 
-import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 import sas
 import sas_testcase
 from util import configurable_testcase, writeConfig, loadConfig, json_load
@@ -367,13 +366,13 @@ class QuietZoneProtectionTestcase(sas_testcase.SasTestCase):
 
     # Step 2: For CBSDs successfully registered in Step 1, Send grant request 1
     request1 = {'grantRequest': grant_request_n1}
-    grant_responses1 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request1)['grantResponse']
+    grant_responses1 = self._sas.Grant(request1)['grantResponse']
     # Check grant response 1
     self.assertEqual(len(grant_responses1), len(grant_request_n1))
 
     # Step 3: For CBSDs successfully registered in Step 1, Send grant request 2
     request2 = {'grantRequest': grant_request_n2}
-    grant_responses2 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request2)['grantResponse']
+    grant_responses2 = self._sas.Grant(request2)['grantResponse']
     # Check grant response 2
     self.assertEqual(len(grant_responses2), len(grant_request_n2))
 
@@ -677,7 +676,7 @@ class QuietZoneProtectionTestcase(sas_testcase.SasTestCase):
     config['grantRequest']['cbsdId'] = cbsd_id
     grant_request = config['grantRequest']
     request = {'grantRequest': [grant_request]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
     # Check grant response
     self.assertEqual(len(response), 1)
     # If EIRP <= 49.15 dBm = SUCCESS
@@ -783,7 +782,7 @@ class QuietZoneProtectionTestcase(sas_testcase.SasTestCase):
     config['grantRequest1']['cbsdId'] = cbsd_id
     grant_request = config['grantRequest1']
     request = {'grantRequest': [grant_request]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse'][0]
+    response = self._sas.Grant(request)['grantResponse'][0]
     # Check if the first grant response is successful.
     grant1_approved = response['response']['responseCode'] == 0
     del request, response
@@ -792,7 +791,7 @@ class QuietZoneProtectionTestcase(sas_testcase.SasTestCase):
     config['grantRequest2']['cbsdId'] = cbsd_id
     grant_request = config['grantRequest2']
     request = {'grantRequest': [grant_request]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse'][0]
+    response = self._sas.Grant(request)['grantResponse'][0]
     # Check if the second grant response is successful.
     grant2_approved = response['response']['responseCode'] == 0
     del request, response

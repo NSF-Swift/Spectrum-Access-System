@@ -25,7 +25,6 @@ from time import sleep, strftime, gmtime
 
 from six.moves import zip
 
-import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 import sas
 import sas_testcase
 from database import DatabaseServer
@@ -236,7 +235,7 @@ class FederalGovernmentDatabaseUpdateTestcase(sas_testcase.SasTestCase):
     grant_request_g2 = {'grantRequest': config['grantRequests'][1]}
 
     # Send grant request 'G2'
-    grant_response_g2 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(grant_request_g2)['grantResponse']
+    grant_response_g2 = self._sas.Grant(grant_request_g2)['grantResponse']
     self.assertEqual(len(grant_response_g2), len(grant_request_g2['grantRequest']))
 
     # Check grant response,

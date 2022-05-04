@@ -23,7 +23,6 @@ import time
 
 from six import string_types as basestring
 
-import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 from request_handler import HTTPError
 import common_strings
 import sas
@@ -224,7 +223,7 @@ class RegistrationTestcase(sas_testcase.SasTestCase):
     grant_e['cbsdId'] = cbsd_ids[2]
     grant_f['cbsdId'] = cbsd_ids[3]
     request = {'grantRequest': [grant_e, grant_f]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
     self.assertEqual(len(response), 2)
     self.assertEqual(response[0]['cbsdId'], cbsd_ids[2])
     self.assertEqual(response[1]['cbsdId'], cbsd_ids[3])
@@ -380,7 +379,7 @@ class RegistrationTestcase(sas_testcase.SasTestCase):
       grant_request.append(grant)
     request = {'grantRequest': grant_request}
     # Check grant response.
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
     grant_ids = []
     for response_num, resp in enumerate(response):
       self.assertEqual(resp['cbsdId'], cbsd_ids[response_num])

@@ -21,7 +21,6 @@ import os
 from datetime import datetime
 
 import common_strings
-import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 import sas
 import sas_testcase
 from util import addCbsdIdsToRequests, configurable_testcase, writeConfig, loadConfig, json_load
@@ -273,7 +272,7 @@ class ExclusionZoneTestcase(sas_testcase.SasTestCase):
       grant_request_N2.append(grants)
 
     request_N2 = {'grantRequest': grant_request_N2}
-    response_N2 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request_N2)['grantResponse']
+    response_N2 = self._sas.Grant(request_N2)['grantResponse']
     self.assertEqual(len(response_N2), len(grant_request_N2))
 
     for response_num, response in enumerate(response_N2):
@@ -291,7 +290,7 @@ class ExclusionZoneTestcase(sas_testcase.SasTestCase):
       grant_request_N3.append(grants)
 
     request_N3 = {'grantRequest': grant_request_N3}
-    response_N3 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request_N3)['grantResponse']
+    response_N3 = self._sas.Grant(request_N3)['grantResponse']
     self.assertEqual(len(response_N3), len(grant_request_N3))
 
     for response_num, response in enumerate(response_N3):
@@ -309,7 +308,7 @@ class ExclusionZoneTestcase(sas_testcase.SasTestCase):
       grant_request_N4.append(grants)
 
     request_N4 = {'grantRequest': grant_request_N4}
-    response_N4 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request_N4)['grantResponse']
+    response_N4 = self._sas.Grant(request_N4)['grantResponse']
     self.assertEqual(len(response_N4), len(grant_request_N4))
 
     for response_num, response in enumerate(response_N4):
@@ -549,7 +548,7 @@ class ExclusionZoneTestcase(sas_testcase.SasTestCase):
     addCbsdIdsToRequests(cbsd_ids_N1, grant_request_N1)
 
     request_N1 = {'grantRequest': grant_request_N1}
-    response_N1 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request_N1)['grantResponse']
+    response_N1 = self._sas.Grant(request_N1)['grantResponse']
     self.assertEqual(len(response_N1), len(grant_request_N1))
 
     # Generating grant requests for N2 and validating responses
@@ -558,7 +557,7 @@ class ExclusionZoneTestcase(sas_testcase.SasTestCase):
     addCbsdIdsToRequests(cbsd_ids_N2, grant_request_N2)
 
     request_N2 = {'grantRequest': grant_request_N2}
-    response_N2 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request_N2)['grantResponse']
+    response_N2 = self._sas.Grant(request_N2)['grantResponse']
     self.assertEqual(len(response_N2), len(grant_request_N2))
 
     for response_num, response in enumerate(response_N2):
@@ -571,7 +570,7 @@ class ExclusionZoneTestcase(sas_testcase.SasTestCase):
     addCbsdIdsToRequests(cbsd_ids_N3, grant_request_N3)
 
     request_N3 = {'grantRequest': grant_request_N3}
-    response_N3 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request_N3)['grantResponse']
+    response_N3 = self._sas.Grant(request_N3)['grantResponse']
     self.assertEqual(len(response_N3), len(grant_request_N3))
 
     for response_num, response in enumerate(response_N3):

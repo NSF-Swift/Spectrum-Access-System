@@ -50,7 +50,6 @@ import os
 import time
 
 import common_strings
-import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 import sas
 import sas_testcase
 from sas_test_harness import SasTestHarnessServer, generateCbsdRecords
@@ -122,7 +121,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
     grant_0['operationParam']['operationFrequencyRange']['highFrequency'] \
         = pal_high_frequency
     request = {'grantRequest': [grant_0]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse'][0]
+    response = self._sas.Grant(request)['grantResponse'][0]
     # Check grant response
     self.assertEqual(response['cbsdId'], cbsd_ids[0])
     if response['response']['responseCode'] == 400:
@@ -202,7 +201,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
 
     request = {'grantRequest': [grant_0, grant_1, grant_2, grant_3, grant_4]}
     # Send grant request and get response
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
 
     self.assertEqual(len(response), 5)
     # Check grant response # 1
@@ -227,7 +226,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
         os.path.join('testcases', 'testdata', 'grant_0.json'))
     grant_0['cbsdId'] = 'A non-exist cbsd id'
     request = {'grantRequest': [grant_0]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse'][0]
+    response = self._sas.Grant(request)['grantResponse'][0]
     # Check grant response
     self.assertFalse('cbsdId' in response)
     self.assertFalse('grantId' in response)
@@ -278,7 +277,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
     grant_0['cbsdId'] = cbsd_id_a
 
     request = {'grantRequest': [grant_0]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request, device_c_cert, device_c_key)['grantResponse'][0]
+    response = self._sas.Grant(request, device_c_cert, device_c_key)['grantResponse'][0]
     # Check grant Response
     self.assertFalse('cbsdId' in response)
     self.assertFalse('grantId' in response)
@@ -406,7 +405,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
 
     # Step 4: Send a valid Grant Request for C1 and C2 to the SAS UUT.
     request = {'grantRequest': [grant_g1, grant_g2]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
 
     # Check the length of request and response match.
     self.assertEqual(len(request['grantRequest']), len(response))
@@ -591,7 +590,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
 
     request = {'grantRequest': [grant_0, grant_1, grant_2]}
     # Send grant request and get response
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
 
     # Check grant response array
     self.assertEqual(len(response), 3)
@@ -649,7 +648,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
 
     request = {'grantRequest': [grant_0]}
     # Send grant request
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse'][0]
+    response = self._sas.Grant(request)['grantResponse'][0]
 
     # Check grant response
     self.assertEqual(response['cbsdId'], cbsd_ids[0])
@@ -713,7 +712,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
 
     request = {'grantRequest': [grant_c]}
     # Send grant request
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse'][0]
+    response = self._sas.Grant(request)['grantResponse'][0]
     # Check grant response for second device response code 400
     self.assertEqual(response['cbsdId'], cbsd_ids[1])
     self.assertFalse('grantId' in response)
@@ -775,7 +774,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
     request = {'grantRequest': [grant_0, grant_1]}
 
     # Send grant request first time
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
     # Check grant response, must be response code 0.
     self.assertEqual(len(response), 2)
     for response_num in [0, 1]:
@@ -795,7 +794,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
 
     request = {'grantRequest': [grant_0, grant_1]}
     # Send the same grant request again.
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
     # Check grant response, must be response code 401.
     for response_num in [0, 1]:
       self.assertEqual(response[response_num]['cbsdId'], cbsd_ids[response_num])
@@ -923,7 +922,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
 
     # Send the grant requests
     request = {'grantRequest': [grant_1, grant_2, grant_3, grant_4, grant_5]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
 
     # Check the grant responses
     # No grantIds, responseCode should be 103
@@ -943,7 +942,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
 
     # Send the grant requests
     request = {'grantRequest': [grant_1, grant_2, grant_3, grant_4, grant_5]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
 
     # Check the grant responses
     # response should have valid cbsdIds, grantIds, responseCode 0
@@ -1002,7 +1001,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
 
     # Send the grant requests
     request = {'grantRequest': [grant_1, grant_2, grant_3]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
 
     # Check the grant responses
     #
@@ -1115,7 +1114,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
     }
     request = {'grantRequest': [grant_0, grant_1, grant_2]}
     # Send grant requests
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
     # Check grant response 1 and 2
     self.assertEqual(len(response), 3)
     for response_num, resp in enumerate(response[:2]):
@@ -1185,7 +1184,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
 
     request = {'grantRequest': [grant_0, grant_1]}
     # Send grant request and get response
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
 
     self.assertEqual(len(response), 2)
     # Check grant response # 1
@@ -1230,7 +1229,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
     }
     request = {'grantRequest': [grant_0, grant_1]}
     # Send grant request and get response
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
     # Check grant response
     self.assertEqual(len(response), 2)
     self.assertEqual(response[0]['cbsdId'], cbsd_id)
@@ -1457,7 +1456,7 @@ class GrantTestcase(sas_testcase.SasTestCase):
     grant_request = config['grantRequests']
     addCbsdIdsToRequests(cbsd_ids, grant_request)
     request = {'grantRequest': grant_request}
-    responses = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    responses = self._sas.Grant(request)['grantResponse']
     # Check grant response
     self.assertEqual(len(responses), len(config['expectedResponseCodes']))
     has_error = False

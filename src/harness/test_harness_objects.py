@@ -26,7 +26,6 @@ import math
 import six
 from six.moves import zip
 
-import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 import sas
 import common_strings
 from common_types import ResponseCodes
@@ -571,8 +570,8 @@ class DomainProxy(object):
       # Wrapped version of the grant requests.
       grant_requests_wrap = {'grantRequest': requests}
       grant_responses.extend(
-          cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(grant_requests_wrap, self.ssl_cert,
-                                                                                   self.ssl_key)['grantResponse'])
+          self.testcase._sas.Grant(grant_requests_wrap, self.ssl_cert,
+                                   self.ssl_key)['grantResponse'])
     return grant_responses
 
   def _heartbeatRequestWithMaximumBatchSize(self, heartbeat_requests):

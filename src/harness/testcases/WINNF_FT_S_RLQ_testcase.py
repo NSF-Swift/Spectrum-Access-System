@@ -20,7 +20,6 @@ import logging
 import os
 
 import common_strings
-import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 from request_handler import HTTPError
 import sas
 import sas_testcase
@@ -73,7 +72,7 @@ class RelinquishmentTestcase(sas_testcase.SasTestCase):
     }
     request = {'grantRequest': [grant_0, grant_1]}
     # Check grant response
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
     self.assertEqual(len(response), 2)
     grant_ids = []
     for resp in response:
@@ -173,7 +172,7 @@ class RelinquishmentTestcase(sas_testcase.SasTestCase):
     request = {'grantRequest': [grant_0, grant_1, grant_2]}
     # Check grant response
     grant_ids = []
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
     self.assertEqual(len(response), 3)
     for resp_number, resp in enumerate(response):
       self.assertEqual(resp['cbsdId'], cbsd_id)
@@ -266,7 +265,7 @@ class RelinquishmentTestcase(sas_testcase.SasTestCase):
          'highFrequency': 3630000000
     }
     request = {'grantRequest': [grant_2, grant_3, grant_4]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
 
     # Check grant response
     self.assertEqual(response[0]['cbsdId'], cbsd_id_2)
@@ -359,7 +358,7 @@ class RelinquishmentTestcase(sas_testcase.SasTestCase):
     }
     grant_id = []
     request = {'grantRequest': [grant_1, grant_2, grant_3]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
 
     # Check grant response
     self.assertEqual(len(response), 3)
@@ -437,7 +436,7 @@ class RelinquishmentTestcase(sas_testcase.SasTestCase):
     request = {'grantRequest': [grant_0, grant_1, grant_2]}
     # Check grant response
     grant_id = []
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
     self.assertEqual(len(response), 3)
     for resp in response:
       self.assertEqual(resp['response']['responseCode'], 0)

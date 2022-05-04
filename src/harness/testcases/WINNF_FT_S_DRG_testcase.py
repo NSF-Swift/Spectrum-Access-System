@@ -21,7 +21,6 @@ import logging
 import os
 
 import common_strings
-import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 import sas
 import sas_testcase
 from util import winnforum_testcase, configurable_testcase, writeConfig, \
@@ -83,7 +82,7 @@ class DeregistrationTestcase(sas_testcase.SasTestCase):
 
     # Send the grant requests
     request = {'grantRequest': [grant_1, grant_2]}
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
+    response = self._sas.Grant(request)['grantResponse']
 
     # Check the grant responses
     # valid cbsdIds, responseCode should be 103 for both cbsdIds
@@ -228,7 +227,7 @@ class DeregistrationTestcase(sas_testcase.SasTestCase):
     grant['cbsdId'] = cbsd_id
     request = {'grantRequest': [grant]}
     # Check grant response
-    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse'][0]
+    response = self._sas.Grant(request)['grantResponse'][0]
     self.assertEqual(response['cbsdId'], cbsd_id)
     self.assertEqual(response['response']['responseCode'], 0)
     grant_id = response['grantId']
