@@ -260,7 +260,7 @@ class FederalGovernmentDatabaseUpdateTestcase(sas_testcase.SasTestCase):
     grant_request_g3 = {'grantRequest': config['grantRequests'][2]}
 
     # Send grant request 'G3'
-    grant_response_g3 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(grant_request_g3)['grantResponse']
+    grant_response_g3 = self._sas.Grant(grant_request_g3)['grantResponse']
     self.assertEqual(len(grant_response_g3), len(grant_request_g3['grantRequest']))
 
     # Check grant response,
@@ -462,7 +462,7 @@ class FederalGovernmentDatabaseUpdateTestcase(sas_testcase.SasTestCase):
     grant_request_g2 = {'grantRequest': config['grantRequests'][1]}
 
     # Send grant request 'G2'
-    grant_response_g2 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(grant_request_g2)['grantResponse']
+    grant_response_g2 = self._sas.Grant(grant_request_g2)['grantResponse']
     self.assertEqual(len(grant_response_g2), len(grant_request_g2['grantRequest']))
 
     # Check grant response,
@@ -525,7 +525,7 @@ class FederalGovernmentDatabaseUpdateTestcase(sas_testcase.SasTestCase):
     grant_request_g3 = {'grantRequest': config['grantRequests'][2]}
 
     # Send grant request 'G3'
-    grant_response_g3 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(grant_request_g3)['grantResponse']
+    grant_response_g3 = self._sas.Grant(grant_request_g3)['grantResponse']
     self.assertEqual(len(grant_response_g3), len(grant_request_g3['grantRequest']))
 
     # Check grant response,
@@ -832,7 +832,7 @@ class FederalGovernmentDatabaseUpdateTestcase(sas_testcase.SasTestCase):
     grant_request_g1 = {'grantRequest': config['grantRequests'][0]}
 
     # Send grant request 'G1'
-    grant_response_g1 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(grant_request_g1)['grantResponse']
+    grant_response_g1 = self._sas.Grant(grant_request_g1)['grantResponse']
 
     # Check grant 'G1' response (responseCode should be SUCCESS(0))
     grant_ids = []
@@ -888,7 +888,7 @@ class FederalGovernmentDatabaseUpdateTestcase(sas_testcase.SasTestCase):
     addCbsdIdsToRequests(cbsd_ids, config['grantRequests'][1])
     grant_request_g2 = {'grantRequest': config['grantRequests'][1]}
 
-    grant_response_g2 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(grant_request_g2)['grantResponse']
+    grant_response_g2 = self._sas.Grant(grant_request_g2)['grantResponse']
 
     # Check grant 'G2' response (responseCode should be SUCCESS(0))
     grant_ids = []
@@ -1254,7 +1254,7 @@ class FederalGovernmentDatabaseUpdateTestcase(sas_testcase.SasTestCase):
     addCbsdIdsToRequests(cbsd_ids, config['grantRequests'][0])
     grant_request_g1 = {'grantRequest': config['grantRequests'][0]}
 
-    grant_response_g1 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(grant_request_g1)['grantResponse']
+    grant_response_g1 = self._sas.Grant(grant_request_g1)['grantResponse']
 
     # Check the grant response code is as expected (SUCCESS or INTERFERENCE).
     # Used a 2-D matrix of response codes to check against the grant responses received
@@ -1302,7 +1302,7 @@ class FederalGovernmentDatabaseUpdateTestcase(sas_testcase.SasTestCase):
     addCbsdIdsToRequests(cbsd_ids, config['grantRequests'][1])
     grant_request_g2 = {'grantRequest': config['grantRequests'][1]}
 
-    grant_response_g2 = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(grant_request_g2)['grantResponse']
+    grant_response_g2 = self._sas.Grant(grant_request_g2)['grantResponse']
 
     # Check the grant response code is as expected (SUCCESS or INTERFERENCE).
     for resp_num, resp in enumerate(grant_response_g2):
