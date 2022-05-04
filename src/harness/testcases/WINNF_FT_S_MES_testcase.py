@@ -22,6 +22,7 @@ from datetime import datetime
 
 from six.moves import zip
 
+import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 import sas
 from util import winnforum_testcase, json_load
 
@@ -133,7 +134,7 @@ class MeasurementTestcase(unittest.TestCase):
         grant_request.append(grant_0)
     # Send Grant Request
     request = {'grantRequest': grant_request}
-    response = self._sas.Grant(request)['grantResponse']
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
     # Check Spectrum Inquiry response
     self.assertEqual(response[0]['cbsdId'], cbsd_ids[0])
     self.assertTrue('grantId' in response[0])
@@ -201,7 +202,7 @@ class MeasurementTestcase(unittest.TestCase):
             grant['measReport'] =  {'rcvdPowerMeasReports': meas_report}
         grant_request.append(grant)
     request = {'grantRequest': grant_request}
-    response = self._sas.Grant(request)['grantResponse']
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
 
     grant_ids = []
     # Check grant response

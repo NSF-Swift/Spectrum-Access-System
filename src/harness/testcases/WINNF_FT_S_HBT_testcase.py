@@ -25,6 +25,7 @@ import time
 from six.moves import zip
 
 import common_strings
+import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 from request_handler import HTTPError
 import sas
 import sas_testcase
@@ -83,7 +84,7 @@ class HeartbeatTestcase(sas_testcase.SasTestCase):
     grant_2['cbsdId'] = cbsd_ids[2]
     request = {'grantRequest': [grant_0, grant_1, grant_2]}
     # Check grant response.
-    response = self._sas.Grant(request)['grantResponse']
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
     self.assertEqual(len(response), 3)
     grant_ids = []
     grant_expire_times = []
@@ -181,7 +182,7 @@ class HeartbeatTestcase(sas_testcase.SasTestCase):
       grant_request.append(grant)
     request = {'grantRequest': grant_request}
     # Check grant response.
-    response = self._sas.Grant(request)['grantResponse']
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
     grant_ids = []
     grant_expire_times = []
     for response_num, resp in enumerate(response):
@@ -255,7 +256,7 @@ class HeartbeatTestcase(sas_testcase.SasTestCase):
       grant_request.append(grant)
     request = {'grantRequest': grant_request}
     # Check grant response.
-    response = self._sas.Grant(request)['grantResponse']
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
     grant_ids = []
     for resp_number, resp in enumerate(response):
       self.assertEqual(resp['cbsdId'], cbsd_ids[resp_number])
@@ -326,7 +327,7 @@ class HeartbeatTestcase(sas_testcase.SasTestCase):
       grant_request.append(grant)
     request = {'grantRequest': grant_request}
     # Check grant response.
-    response = self._sas.Grant(request)['grantResponse']
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
     grant_ids = []
     grant_expire_times = []
     for response_num, resp in enumerate(response):
@@ -405,7 +406,7 @@ class HeartbeatTestcase(sas_testcase.SasTestCase):
     request = {'grantRequest': [grant_0]}
 
     # Check grant response
-    response = self._sas.Grant(request)['grantResponse'][0]
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse'][0]
     self.assertEqual(response['cbsdId'], cbsd_id)
     self.assertEqual(response['response']['responseCode'], 0)
     grant_id = response['grantId']
@@ -480,7 +481,7 @@ class HeartbeatTestcase(sas_testcase.SasTestCase):
     grant_0['cbsdId'] = cbsd_ids[0]
     request = {'grantRequest': [grant_0]}
     # Check grant response.
-    response = self._sas.Grant(request)['grantResponse'][0]
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse'][0]
     self.assertEqual(response['cbsdId'], cbsd_ids[0])
     self.assertEqual(response['response']['responseCode'], 0)
     grant_id = response['grantId']
@@ -565,7 +566,7 @@ class HeartbeatTestcase(sas_testcase.SasTestCase):
       grant_request.append(grant)
     request = {'grantRequest': grant_request}
     # Check grant response
-    response = self._sas.Grant(request)['grantResponse']
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
     grant_ids = []
     grant_expire_times = []
     for response_num, resp in enumerate(response):
@@ -644,7 +645,7 @@ class HeartbeatTestcase(sas_testcase.SasTestCase):
     request = {'grantRequest': grant_request}
 
     # Check grant response
-    response = self._sas.Grant(request)['grantResponse']
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
     self.assertEqual(len(response), len(cbsd_ids))
     grant_ids = []
     grant_expire_time = []
@@ -739,7 +740,7 @@ class HeartbeatTestcase(sas_testcase.SasTestCase):
                              ['highFrequency'] = 3660000000
     request = {'grantRequest': [grant_a, grant_c, grant_e]}
     # send grant request
-    response = self._sas.Grant(request)['grantResponse']
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
     grant_ids = []
     grant_expire_times = []
     for response_num, resp in enumerate(response):
@@ -899,7 +900,7 @@ class HeartbeatTestcase(sas_testcase.SasTestCase):
     request = {'grantRequest': grant_request}
 
     # Check grant response
-    response = self._sas.Grant(request)['grantResponse']
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
     self.assertEqual(len(response), len(grant_request))
     grant_ids = []
     grant_expire_times = []
@@ -1032,7 +1033,7 @@ class HeartbeatTestcase(sas_testcase.SasTestCase):
         'highFrequency'] = 3560000000
     grant_0['operationParam']['maxEirp'] = 20
     request = {'grantRequest': [grant_0]}
-    response = self._sas.Grant(request)['grantResponse'][0]
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse'][0]
     self.assertEqual(response['cbsdId'], cbsd_ids[0])
     self.assertEqual(response['response']['responseCode'], 0)
     self.assertTrue('grantId' in response)

@@ -24,6 +24,7 @@ import time
 from six import string_types as basestring
 from six.moves import zip
 
+import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 import sas
 import sas_testcase
 from database import DatabaseServer
@@ -730,7 +731,7 @@ class FederalIncumbentProtectionTestcase(sas_testcase.SasTestCase):
     grant_request = config['grantRequest']
     grant_request['cbsdId'] = self.assertRegistered([config['registrationRequest']], conditional_registration_data=[config['conditionalRegistrationData']])[0]
     # Request grant for the CBSD.
-    grant_response = self._sas.Grant({'grantRequest': [grant_request]})['grantResponse'][0]
+    grant_response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant({'grantRequest': [grant_request]})['grantResponse'][0]
 
     # It is only necessary to heartbeat if the initial grant request succeeds.
     if grant_response['response']['responseCode'] == ResponseCodes.SUCCESS.value:

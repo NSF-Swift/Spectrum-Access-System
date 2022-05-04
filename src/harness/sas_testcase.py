@@ -24,6 +24,7 @@ import unittest
 import six
 from six.moves import zip
 
+import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 import sas
 import util
 from request_handler import HTTPError
@@ -161,7 +162,7 @@ class SasTestCase(unittest.TestCase):
 
     grant_ids = []
     request = {'grantRequest': grant_request}
-    grant_response = self._sas.Grant(
+    grant_response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(
         request, ssl_cert=ssl_cert, ssl_key=ssl_key)['grantResponse']
 
     # Check the grant response

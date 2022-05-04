@@ -25,6 +25,7 @@ import logging
 import six
 
 import common_strings
+import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 import sas
 import sas_testcase
 from reference_models.geo import vincenty, utils
@@ -385,7 +386,7 @@ class FullActivityDumpTestcase(sas_testcase.SasTestCase):
       grants[index]['cbsdId'] = response['cbsdId']
     # send grant request with N1 grants
     del responses
-    grant_responses = self._sas.Grant({'grantRequest': grants})['grantResponse']
+    grant_responses = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant({'grantRequest': grants})['grantResponse']
     # check grant response
     self.assertEqual(len(grant_responses), len(config['grantRequests']))
     for grant_response in grant_responses:

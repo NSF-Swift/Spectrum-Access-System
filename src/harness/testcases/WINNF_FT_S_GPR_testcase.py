@@ -18,6 +18,7 @@ from __future__ import print_function
 import json
 import os
 
+import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 import sas
 import sas_testcase
 from sas_test_harness import SasTestHarnessServer, generateCbsdRecords, \
@@ -450,7 +451,7 @@ class GwpzProtectionTestcase(McpXprCommonTestcase):
     addCbsdIdsToRequests(cbsd_ids, grant_request)
 
     request = {'grantRequest': grant_request}
-    response = self._sas.Grant(request)['grantResponse']
+    response = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
     self.assertEqual(len(response), len(grant_request))
 
     for response_num, response in enumerate(response):

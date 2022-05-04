@@ -19,6 +19,7 @@ import json
 import logging
 import os
 
+import cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions
 from reference_models.antenna import antenna
 from reference_models.geo import utils
 from reference_models.propagation import wf_itm
@@ -244,7 +245,7 @@ class BorderProtectionTestcase(sas_testcase.SasTestCase):
 
     # For CBSDs successfully registered in Step 1, Send grant request
     request = {'grantRequest': grant_request}
-    responses = self._sas.Grant(request)['grantResponse']
+    responses = cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions.Grant(request)['grantResponse']
     # Check grant response
     self.assertEqual(len(responses), len(grant_request))
     self.assertEqual(
