@@ -6,7 +6,7 @@ from cu_pass.dpa_calculator.utilities import Point
 from reference_models.dpa.dpa_builder import ProtectionPoint
 from reference_models.dpa.dpa_mgr import BuildDpa
 
-INTERFERENCE_THRESHOLD_PER_10_MHZ_RADIO_ASTRONOMY_IN_DBM = -166
+INTERFERENCE_THRESHOLD_PER_10_MHZ_RADIO_ASTRONOMY_IN_DBM = -160
 
 
 class RadioAstronomyFacilityNames(Enum):

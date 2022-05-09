@@ -134,13 +134,10 @@ class MainRunner:
 
 
 # if __name__ == '__main__':
-#     MainRunner(dpa_name='MOORESTOWN',
+#     MainRunner(dpa_name='MCKINNEY',
 #                number_of_iterations=1,
-#                simulation_distance_category_a=160,
-#                simulation_distance_category_b=400,
-#                local_output_directory='test_output/moorestown/160_a/400_b/1_iter').run()
-#                simulation_distance_category_b=2,
-#                local_output_directory='test_output/moorestown/2_b/1_iter',
-#                s3_bucket='dpa-calculator',
-#                s3_output_directory='test',
-#                neighborhood_category='B').run()
+#                simulation_distance_category_a=200,
+#                simulation_distance_category_b=500,
+#                local_output_directory='mckinney/200-category-a/500-category-b/eirp--137-37-m31-s5/1000-iterations',
+#                eirp_category_a='100%: PDF [-12-20] mean 15.993519643580397 std 3.6722433576872757',
+#                eirp_category_b='100%: PDF [-137-37] mean 31.7682164324784 std 4.984432082541898').run()
