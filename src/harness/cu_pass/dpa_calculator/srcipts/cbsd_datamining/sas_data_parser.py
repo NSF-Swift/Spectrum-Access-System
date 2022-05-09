@@ -1,42 +1,50 @@
 import csv
 from pathlib import Path
-from statistics import mean, stdev
 from typing import Iterable, List
 
+from cu_pass.dpa_calculator.cbsd.cbsd import CbsdCategories
 from cu_pass.dpa_calculator.helpers.list_distributor.fractional_distribution.fractional_distribution_normal import \
     FractionalDistributionNormal
+from cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.definitions import CbsdInfo, Grant, \
+    NUMBER_OF_CBSD_CHARACTERISTICS_COLUMNS, \
+    NUMBER_OF_COLUMNS_PER_GRANT
+from cu_pass.dpa_calculator.srcipts.cbsd_datamining.support.eirp_parser import EirpParser
 from cu_pass.dpa_calculator.utilities import get_script_directory
-
-EIRP_INDEX_WITHIN_GRANT = 3
-
-NUMBER_OF_COLUMNS_PER_GRANT = 4
-
-NUMBER_OF_CBSD_CHARACTERISTICS_COLUMNS = 4
 
 
 class SasDataParser:
     def __init__(self, csv_filepath: Path):
         self._csv_filepath = csv_filepath
 
-    def get_eirp_distribution(self) -> FractionalDistributionNormal:
-        eirps = [self._get_cbsd_eirp(row=row) for is_nonheader, row in enumerate(self._csv_data) if is_nonheader]
-        return FractionalDistributionNormal(
-            fraction=1,
-            range_maximum=max(eirps),
-            range_minimum=min(eirps),
-            mean=mean(eirps),
-            standard_deviation=stdev(eirps)
+    def get_eirp_distribution(self, cbsd_category: CbsdCategories) -> FractionalDistributionNormal:
+        return EirpParser(cbsd_category=cbsd_category, cbsd_grants=self._grants).get_eirp_distribution()
+
+    @property
+    def _grants(self) -> List[CbsdInfo]:
+        return [self._extract_cbsd_info(row=row) for is_nonheader, row in enumerate(self._csv_data) if is_nonheader]
+
+    def _extract_cbsd_info(self, row: List[str]) -> CbsdInfo:
+        return CbsdInfo(
+            height_in_meters=float(row[0]),
+            height_type=row[1],
+            is_indoor=row[2].lower() == 'true',
+            cbsd_category=CbsdCategories[row[3]],
+            grants=self._get_cbsd_grants(row=row)
         )
 
-    def _get_cbsd_eirp(self, row: List[str]) -> int:
-        cbsd_eirps_strings = [grant[EIRP_INDEX_WITHIN_GRANT] for grant in self._get_cbsd_grants(row=row)]
-        cbsd_eirps = [round(float(eirp)) for eirp in cbsd_eirps_strings if eirp]
-        return max(cbsd_eirps)
-
-    def _get_cbsd_grants(self, row: List[str]) -> List[List[str]]:
+    def _get_cbsd_grants(self, row: List[str]) -> List[Grant]:
         grant_start_indexes = range(NUMBER_OF_CBSD_CHARACTERISTICS_COLUMNS, len(row), NUMBER_OF_COLUMNS_PER_GRANT)
-        return [row[grant_start_index:grant_start_index + NUMBER_OF_COLUMNS_PER_GRANT]
-                for grant_start_index in grant_start_indexes]
+        return [self._extract_grant(row=row, grant_start_index=grant_start_index)
+                for grant_start_index in grant_start_indexes
+                if row[grant_start_index]]
+
+    def _extract_grant(self, row: List[str], grant_start_index: int) -> Grant:
+        return Grant(
+            grant_type=row[grant_start_index],
+            grant_frequency_low=float(row[grant_start_index + 1]),
+            grant_frequency_high=float(row[grant_start_index + 2]),
+            grant_max_eirp=float(row[grant_start_index + 3])
+        )
 
     @property
     def _csv_data(self) -> Iterable[List[str]]:
@@ -46,4 +54,5 @@ class SasDataParser:
 
 if __name__ == '__main__':
     parser = SasDataParser(csv_filepath=Path(get_script_directory(__file__), 'cbsdOverviewData.csv'))
-    print(parser.get_eirp_distribution())
+    print(f'CATEGORY A: {parser.get_eirp_distribution(cbsd_category=CbsdCategories.A)}')
+    print(f'CATEGORY B: {parser.get_eirp_distribution(cbsd_category=CbsdCategories.B)}')
